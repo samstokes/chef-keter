@@ -50,7 +50,6 @@ exec #{keter_install} #{keter_conf}
   UPSTART
 end
 
-bash 'start_keter' do
-  code 'sudo start keter'
-  not_if 'ps -C keter'
+service 'keter' do
+  action :start
 end
