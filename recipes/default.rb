@@ -52,4 +52,5 @@ end
 
 service 'keter' do
   action :start
+  provider Chef::Provider::Service::Upstart
 end
