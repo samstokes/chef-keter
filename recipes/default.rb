@@ -23,11 +23,9 @@ end
 
 group 'keter'
 
-keter_root = '/var/keter'
+directory node[:keter][:root]
 
-directory keter_root
-
-directory "#{keter_root}/incoming" do
+directory "#{node[:keter][:root]}/incoming" do
   group 'keter'
   mode '775'
 end
@@ -36,7 +34,7 @@ keter_conf = '/etc/keter.yaml'
 
 file keter_conf do
   content <<-YAML
-root: #{keter_root}
+root: #{node[:keter][:root]}
   YAML
 end
 
