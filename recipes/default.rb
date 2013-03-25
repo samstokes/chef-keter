@@ -1,6 +1,6 @@
 package 'haskell-platform'
 
-cabal_home = '/root/.cabal'
+cabal_home = "#{ENV['HOME']}/.cabal"
 
 bash 'cabal_update' do
   code 'cabal update'
