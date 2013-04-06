@@ -53,4 +53,5 @@ end
 service 'keter' do
   action :start
   provider Chef::Provider::Service::Upstart
+  subscribes :restart, resources(:file => keter_conf), :delayed
 end
