@@ -32,9 +32,29 @@ end
 
 keter_conf = '/etc/keter.yaml'
 
+environment = node.chef_environment == '_default' ? 'staging' : node.chef_environment
+ssl_cert = Chef::EncryptedDataBagItem.load('keter', "ssl_#{environment}")
+
+ssl_cert_file = '/etc/ssl/certs/keter.crt'
+file ssl_cert_file do
+  content ssl_cert['crt']
+  mode 0644
+end
+
+ssl_key_file = '/etc/ssl/private/keter.key'
+file ssl_key_file do
+  content ssl_cert['key']
+  mode 0600
+end
+
 file keter_conf do
   content <<-YAML
 root: #{node[:keter][:root]}
+ssl:
+  host: "*"
+  port: 443
+  key: #{ssl_key_file}
+  certificate: #{ssl_cert_file}
   YAML
 end
 
@@ -54,4 +74,6 @@ service 'keter' do
   action :start
   provider Chef::Provider::Service::Upstart
   subscribes :restart, resources(:file => keter_conf), :delayed
+  subscribes :restart, resources(:file => ssl_cert_file), :delayed
+  subscribes :restart, resources(:file => ssl_key_file), :delayed
 end

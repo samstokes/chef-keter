@@ -1,7 +1,12 @@
 name        'keter'
 maintainer  'Sam Stokes'
 maintainer  'me@samstokes.co.uk'
-description 'Sets up Keter on an Ubuntu server'
+description <<-DESC
+Sets up Keter on an Ubuntu server.
+
+For SSL, requires an encrypted data bag keter/ssl_ENV.json where ENV is the
+Chef environment name.
+DESC
 version     '0.0.1'
 
 recipe      'keter', 'Sets up Keter to run on startup'
