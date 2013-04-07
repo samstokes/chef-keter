@@ -56,6 +56,8 @@ ssl:
   key: #{ssl_key_file}
   certificate: #{ssl_cert_file}
   YAML
+
+  notifies :restart, 'service[keter]', :delayed
 end
 
 file '/etc/init/keter.conf' do
@@ -73,7 +75,6 @@ end
 service 'keter' do
   action :start
   provider Chef::Provider::Service::Upstart
-  subscribes :restart, resources(:file => keter_conf), :delayed
   subscribes :restart, resources(:file => ssl_cert_file), :delayed
   subscribes :restart, resources(:file => ssl_key_file), :delayed
 end
