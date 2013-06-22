@@ -3,8 +3,11 @@ package 'haskell-platform'
 cabal_home = "#{ENV['HOME']}/.cabal"
 
 bash 'cabal_update' do
+  cabal_index = "#{cabal_home}/packages/hackage.haskell.org/00-index.tar"
   code 'cabal update'
-  not_if "test -d #{cabal_home}"
+  not_if do
+    File.exists?(cabal_index) && (Time.now - File.mtime(cabal_index) < 60 * 60 * 24 * 7)
+  end
 end
 
 keter_build = "#{cabal_home}/bin/keter"
