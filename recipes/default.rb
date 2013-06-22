@@ -18,7 +18,7 @@ end
 
 bash 'install_keter' do
   code "cp #{keter_build} #{keter_install}"
-  not_if 'which keter'
+  only_if { !File.executable?(keter_install) || File.mtime(keter_build) > File.mtime(keter_install) }
 end
 
 group 'keter'
