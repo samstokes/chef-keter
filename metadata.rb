@@ -11,6 +11,11 @@ version     '0.0.1'
 
 recipe      'keter', 'Sets up Keter to run on startup'
 
+attribute   'keter/version',
+              :display_name => 'Keter version',
+              :description => 'Version of Keter to install',
+              :type => 'string',
+              :required => 'optional'
 attribute   'keter/root',
               :display_name => 'Keter Root',
               :description => 'Root directory for Keter (will contain incoming/)',

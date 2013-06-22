@@ -15,8 +15,13 @@ keter_build = "#{cabal_home}/bin/keter"
 keter_install = '/usr/bin/keter'
 
 bash 'build_keter' do
-  code 'cabal install keter'
-  not_if "test -x #{keter_build}"
+  if version = node[:keter][:version]
+    code "cabal install keter-#{version}"
+    not_if "#{keter_build} --version | grep -F '#{version}'"
+  else
+    code 'cabal install keter'
+    not_if "test -x #{keter_build}"
+  end
 end
 
 bash 'install_keter' do
