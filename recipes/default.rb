@@ -19,6 +19,8 @@ end
 bash 'install_keter' do
   code "cp #{keter_build} #{keter_install}"
   only_if { !File.executable?(keter_install) || File.mtime(keter_build) > File.mtime(keter_install) }
+
+  notifies :restart, 'service[keter]', :delayed
 end
 
 group 'keter'
